@@ -1,12 +1,19 @@
 <template>
   <div class="jumbotron vertical-center">
+    <header class="header">
+      <nav class="navigation">
+        <router-link to="/" class="nav-item">Home</router-link>
+        <router-link to="/accounts" class="nav-item">Accounts</router-link>
+        <router-link to="/skull" class="nav-item">Skull</router-link>
+      </nav>
+    </header>
     <div class="container">
       <div class="row">
         <div class="col-sm-12">
           <h1>Accounts</h1>
           <hr />
           <br />
-          <!-- Allert Message -->
+          <!-- Alert Message -->
           <b-alert v-if="showMessage" variant="success" show>{{
             message
           }}</b-alert>
@@ -27,6 +34,7 @@
                 <th scope="col">Account Number</th>
                 <th scope="col">Account Balance</th>
                 <th scope="col">Account Currency</th>
+                <th scope="col">Account Country</th>
                 <th scope="col">Account Status</th>
                 <th scope="col">Actions</th>
               </tr>
@@ -37,6 +45,7 @@
                 <td>{{ account.account_number }}</td>
                 <td>{{ account.balance }}</td>
                 <td>{{ account.currency }}</td>
+                <td>{{ account.country }}</td>
                 <td>
                   <span
                     v-if="account.status == 'Active'"
@@ -105,7 +114,21 @@
               id="form-currency-input"
               type="text"
               v-model="createAccountForm.currency"
-              placeholder="$ or €"
+              placeholder="USD ($) or EUR (€)"
+              required
+            >
+            </b-form-input>
+          </b-form-group>
+          <b-form-group
+            id="form-country-group"
+            label="Country:"
+            label-for="form-country-input"
+          >
+            <b-form-input
+              id="form-country-input"
+              type="text"
+              v-model="createAccountForm.country"
+              placeholder="Country"
               required
             >
             </b-form-input>
@@ -156,6 +179,7 @@ export default {
       createAccountForm: {
         name: "",
         currency: "",
+        country: "",
       },
       editAccountForm: {
         id: "",
@@ -177,6 +201,7 @@ export default {
         .get(path)
         .then((response) => {
           this.accounts = response.data.accounts;
+
         })
         .catch((error) => {
           console.error(error);
@@ -268,6 +293,7 @@ export default {
       const payload = {
         name: this.createAccountForm.name,
         currency: this.createAccountForm.currency,
+        country: this.createAccountForm.country,
       };
       this.RESTcreateAccount(payload);
       this.initForm();
@@ -279,6 +305,9 @@ export default {
       this.$refs.editAccountModal.hide(); //hide the modal when submitted
       const payload = {
         name: this.editAccountForm.name,
+        currency: this.editAccountForm.currency,
+        country: this.editAccountForm.country,
+        balance: this.editAccountForm.balance,
       };
       this.RESTupdateAccount(payload, this.editAccountForm.id);
       this.initForm();
@@ -287,6 +316,7 @@ export default {
     // Handle edit button
     editAccount(account) {
       this.editAccountForm = account;
+      this.editAccountForm.country = account.country;
     },
 
     // Handle Delete button
@@ -303,3 +333,29 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.header {
+  background-color: #283593;
+  padding: 20px;
+  top: 0;
+}
+.navigation {
+  justify-content: left;
+}
+.nav-item {
+  padding: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+}
+.nav-item:hover {
+  background-color: #5c6bc0;
+  color: white;
+}
+.container {
+  margin-top: 50px;
+}
+</style>
