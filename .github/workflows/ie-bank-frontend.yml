@@ -31,7 +31,7 @@ jobs:
           node-version: '18.x'
           cache: 'npm'
 
-      - name: npm install, build, and test for DEV
+      - name: npm install, build, and test
         run: |
           npm install
           npm run build -- --mode development --dest dist-dev ## this command will build the vue.js app using .env.development variables into the dest-div/ folder
@@ -42,15 +42,6 @@ jobs:
           name: node-app-dev
           path: dist-dev/
 
-      - name: Build for DEV
-        run: |
-          npm run build -- --mode dev
-
-      - name: Upload artifact for DEV deployment
-        uses: actions/upload-artifact@v4
-        with:
-          name: node-app-dev
-          path: dist-dev/
 
   deploy-dev:
     runs-on: ubuntu-latest
@@ -91,6 +82,7 @@ jobs:
   #       run: |
   #         npm install
   #         npm run build:uat
+  #
   #     - name: Upload artifact for UAT deployment job
   #       uses: actions/upload-artifact@v4
   #       with:
