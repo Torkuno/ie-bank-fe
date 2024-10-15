@@ -44,16 +44,16 @@ export default {
 }
 
 .image-container {
-  display: flex;             /* Enables flexbox layout */
-  justify-content: center;   /* Centers the images horizontally */
-  align-items: center;       /* Aligns the images vertically so they have the same height */
-  gap: 20px;                 /* Adds some space between the images */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
 }
 
 .ie-logo, .bank-icon {
-  height: 200px;             /* Sets the same height for both images */
-  width: auto;               /* Keeps the aspect ratio, adjusting the width accordingly */
-  max-width: 100%;           /* Ensures the images don't overflow their container */
+  height: 200px;
+  width: auto;
+  max-width: 100%;
 }
 
 .header {
