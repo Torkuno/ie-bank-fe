@@ -1,0 +1,10 @@
+FROM node:lts-alpine
+ARG MODE
+RUN npm install -g http-server
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build -- --mode ${MODE}
+EXPOSE 8080
+CMD [ "http-server", "dist" ]
